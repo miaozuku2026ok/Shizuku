@@ -1,34 +1,29 @@
-plugins {
-    id("idea")
-}
-
-idea.module {
-    excludeDirs += file('out')
-}
-
-subprojects {
-    plugins.withId("com.android.base") {
-        android {
-            compileSdk = 36
-            buildToolsVersion = "36.0.0"
-            ndkVersion = "29.0.13113456"
-            defaultConfig {
-                minSdk = 24
-                targetSdk = 36
-            }
-            compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_21
-                targetCompatibility = JavaVersion.VERSION_21
-            }
-        }
+buildscript {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.7.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.20"
+        classpath "dev.rikka.tools.refine:gradle-plugin:4.7.0"
+        classpath "dev.rikka.tools:autoresconfig:1.4.0"
+        classpath "dev.rikka.tools:materialthemebuilder:1.4.0"
     }
 }
 
-apply from: 'api/manifest.gradle'
-def gitCommitId = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
-def gitCommitCount = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
-def baseVersionName = "${api_version_major}.6.0"
+allprojects {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        google()
+        mavenCentral()
+    }
+}
+
 ext {
-    versionCode = gitCommitCount
-    versionName = "${baseVersionName}.r${gitCommitCount}.${gitCommitId}"
+    versionCode = 100
+    versionName = "1.0.0"
 }
