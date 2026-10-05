@@ -20,28 +20,14 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accept Android SDK licenses
-        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Build Shizuku Manager Debug APK
+      - name: Build APK
         run: ./gradlew :manager:assembleDebug --stacktrace
 
-      - name: List Android SDK build tools
-        run: ls $ANDROID_HOME/build-tools/
-
-      - name: Zipalign 4-byte align APK
-        run: |
-          BUILD_TOOL_VER=$(ls $ANDROID_HOME/build-tools | tail -n1)
-          $ANDROID_HOME/build-tools/$BUILD_TOOL_VER/zipalign -v 4 manager/build/outputs/apk/debug/manager-debug.apk manager/build/outputs/apk/debug/manager-debug-aligned.apk
-
-      - name: Upload built APK
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Shizuku-DebugAPK
-          path: manager/build/outputs/apk/debug/manager-debug-aligned.apk
+          path: manager/build/outputs/apk/debug/manager-debug.apk
