@@ -20,6 +20,16 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Setup Android SDK & NDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: latest
+          ndk-version: "27.2.12479018"
+          cmake-version: "3.31.0"
+
+      - name: Accept SDK Licenses
+        run: yes | sdkmanager --licenses
+
       - name: Make gradlew executable
         run: chmod +x gradlew
 
