@@ -20,7 +20,6 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      # 手动安装Android SDK命令行工具，去掉不稳定的setup-android action
       - name: Install Android SDK
         run: |
           sudo apt update && sudo apt install unzip
@@ -28,11 +27,14 @@ jobs:
           cd $HOME/android-sdk/cmdline-tools
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
           unzip commandlinetools-linux-11076708_latest.zip
+          # 关键修复：把解压出来的cmdline-tools文件夹重命名为latest
           mv cmdline-tools latest
-          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
-          echo "PATH=$HOME/android-sdk/cmdline-tools/latest/bin:${PATH}" >> $GITHUB_ENV
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$HOME/android-sdk/cmdline-tools/latest/bin:${PATH}
           yes | sdkmanager --licenses
           sdkmanager "platforms;android-34" "build-tools;34.0.0"
+          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+          echo "PATH=$HOME/android-sdk/cmdline-tools/latest/bin:${PATH}" >> $GITHUB_ENV
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
