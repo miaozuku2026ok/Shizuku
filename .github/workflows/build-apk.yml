@@ -28,7 +28,8 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Shizuku Manager Debug APK
-        run: ./gradlew :manager:assembleDebug :shell:assembleDebug :starter:assembleDebug --stacktrace
+        run: ./gradlew :manager:assembleDebug :starter:assembleDebug --stacktrace
+
 
 
       # 改成通配符匹配所有apk，解决找不到文件问题
@@ -38,5 +39,4 @@ jobs:
           name: Shizuku-DebugAPK
           path: |
   manager/build/outputs/apk/debug/*.apk
-  shell/build/outputs/apk/debug/*.apk
   starter/build/outputs/apk/debug/*.apk
