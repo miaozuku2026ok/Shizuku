@@ -28,11 +28,14 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Shizuku Manager Debug APK
-        run: ./gradlew :manager:assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --stacktrace
 
       # 改成通配符匹配所有apk，解决找不到文件问题
       - name: Upload built APK
         uses: actions/upload-artifact@v4
         with:
           name: Shizuku-DebugAPK
-          path: manager/build/outputs/apk/debug/*.apk
+          path: |
+  manager/build/outputs/apk/debug/*.apk
+  shell/build/outputs/apk/debug/*.apk
+  starter/build/outputs/apk/debug/*.apk
