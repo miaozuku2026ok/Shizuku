@@ -20,7 +20,6 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      # 执行sdkmanager --licenses，自动全部同意许可证
       - name: Accept Android SDK licenses
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
@@ -28,11 +27,12 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Build Shizuku Manager Release APK
-        run: ./gradlew :manager:assembleRelease
+      # 改成编译Debug版本，不需要签名
+      - name: Build Shizuku Manager Debug APK
+        run: ./gradlew :manager:assembleDebug --stacktrace
 
       - name: Upload built APK
         uses: actions/upload-artifact@v4
         with:
-          name: Shizuku-ReleaseAPK
-          path: manager/build/outputs/apk/release/manager-release-unsigned.apk
+          name: Shizuku-DebugAPK
+          path: manager/build/outputs/apk/debug/manager-debug.apk
