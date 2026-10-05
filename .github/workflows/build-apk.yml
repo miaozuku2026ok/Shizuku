@@ -20,8 +20,13 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Accept Android SDK licenses
-        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+      - name: Setup Android SDK
+        uses: actions/setup-android@2
+        with:
+          packages: platform-tools,build-tools-34.0.0,platforms;android-34,ndk;27.2.12479018,cmake;3.31.0
+
+      - name: Accept SDK Licenses
+        run: yes | sdkmanager --licenses
 
       - name: Make gradlew executable
         run: chmod +x gradlew
